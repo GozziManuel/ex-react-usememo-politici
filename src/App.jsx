@@ -2,8 +2,6 @@ import { useEffect, useMemo, useState, memo } from "react";
 
 import "./css/App.css";
 const PoliticianCard = memo(({ name, image, position, biography }) => {
-  console.log(name);
-
   return (
     <div className="overCard">
       <div className="card">
@@ -23,12 +21,15 @@ const PoliticianCard = memo(({ name, image, position, biography }) => {
   );
 });
 function App() {
+  // STATES
   const [politicians, setPoliticians] = useState([]);
   const [inputTrace, setInputTrace] = useState({
     name: "",
     bio: "",
   });
+  const [position, setPosition] = useState("");
   // GETTING DATA
+
   const handleAsyncFunction = async (url) => {
     const result = await fetch(url);
     const obj = await result.json();
@@ -50,10 +51,17 @@ function App() {
   }, []);
 
   // TRACE INPUTS
+
   const handleTranceInput = (e) => {
     const { name, value } = e.target;
     setInputTrace({ ...inputTrace, [name]: value });
   };
+
+  const handleSelectInput = (e) => {
+    const userValue = e.target.value;
+    setPosition(userValue);
+  };
+  // FILTERING
 
   const filterArray = useMemo(() => {
     return politicians.filter((p, i) => {
@@ -66,9 +74,28 @@ function App() {
       const FormatInput = inputTrace.name.toLowerCase().trim();
 
       const nameFilter = FormatName.includes(FormatInput);
-      return nameFilter && bioFilter;
+      if (position === "") {
+        return p;
+      }
+
+      const selectFilter = p.position === position;
+
+      return nameFilter && bioFilter && selectFilter;
     });
-  }, [politicians, inputTrace]);
+  }, [politicians, inputTrace, position]);
+
+  // GETTING POSITION
+  const positionTrue = [];
+  const positionFalse = [];
+  const gettingPosition = politicians.map((el) => {
+    {
+      if (positionTrue.includes(el.position)) {
+        positionFalse.push(el.position);
+      } else {
+        positionTrue.push(el.position);
+      }
+    }
+  });
 
   return (
     <div className="Container">
@@ -90,6 +117,21 @@ function App() {
           value={inputTrace.bio}
           onChange={handleTranceInput}
         />
+        <select
+          name="position"
+          id=""
+          value={position}
+          onChange={handleSelectInput}
+        >
+          <option value="">Scegli una posizione</option>;
+          {positionTrue.map((o, i) => {
+            return (
+              <>
+                <option name={o}>{o}</option>
+              </>
+            );
+          })}
+        </select>
       </div>
       <div className="cardContaniner">
         {filterArray.map((p, i) => {
