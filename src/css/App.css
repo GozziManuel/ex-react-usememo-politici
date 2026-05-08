@@ -1,0 +1,36 @@
+.cardImg {
+  width: 100px;
+  height: 100px;
+}
+.card {
+  max-width: 200px;
+  min-height: 400px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  text-align: center;
+  padding: 20px;
+}
+
+.cardContaniner {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 50px;
+}
+.Container {
+  width: 100%;
+}
+h5 {
+  margin: 0;
+}
+.overCard {
+  border: solid 2px black;
+  background-color: rgb(235, 234, 234);
+  cursor: pointer;
+  transition: all 0.5s ease-in-out;
+}
+.overCard:hover {
+  transform: translateY(-10px);
+}
