@@ -74,10 +74,10 @@ function App() {
       const FormatInput = inputTrace.name.toLowerCase().trim();
 
       const nameFilter = FormatName.includes(FormatInput);
-      if (position === "") {
-        return p;
-      }
 
+      if (position === "") {
+        return bioFilter && nameFilter;
+      }
       const selectFilter = p.position === position;
 
       return nameFilter && bioFilter && selectFilter;
@@ -126,9 +126,9 @@ function App() {
           <option value="">Scegli una posizione</option>;
           {positionTrue.map((o, i) => {
             return (
-              <>
-                <option name={o}>{o}</option>
-              </>
+              <option name={o} key={i}>
+                {o}
+              </option>
             );
           })}
         </select>
